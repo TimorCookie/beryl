@@ -1,2 +1,10 @@
-@import 'variables';
-@import 'rebot';
+@import "variables";
+
+//layout
+@import "reboot";
+
+//mixin
+@import "mixin";
+
+
+@import '../components/Button/button';
