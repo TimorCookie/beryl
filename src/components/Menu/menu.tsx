@@ -20,9 +20,13 @@ export const MenuContext = React.createContext<ImenuContext>({ index: 0 })
 const Menu: React.FC<ImenuProps> = (props) => {
   const { defaultIndex, mode, className, style, onSelect, children } = props
   const [currentActive, setActive] = useState(defaultIndex)
-  const classes = classnames('beryl-menu', className , {
-    'menu-vertical': mode === 'vertical'
-  })
+  const classes = classnames(
+    'beryl-menu',
+    className,
+    {
+      'menu-vertical': mode === 'vertical'
+    }
+  )
   const handleClick = (index: number) => {
     setActive(index)
     if (onSelect) {
@@ -41,7 +45,7 @@ const Menu: React.FC<ImenuProps> = (props) => {
     </ul>
   )
 }
-Menu.defaultProps={
+Menu.defaultProps = {
   defaultIndex: 0,
   mode: 'horizontal'
 }
