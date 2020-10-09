@@ -17,13 +17,13 @@ const testVerProps: ImenuProps = {
 const generateMenu = (props:ImenuProps)=> {
   return(
     <Menu {...props}>
-      <MenuItem index={0} >
+      <MenuItem>
         active item
       </MenuItem>
-      <MenuItem index={1} disabled>
+      <MenuItem disabled>
         disabled item
       </MenuItem>
-      <MenuItem index={2}>
+      <MenuItem>
         last one
       </MenuItem>
     </Menu>
