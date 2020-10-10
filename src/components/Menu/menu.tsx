@@ -24,7 +24,8 @@ const Menu: React.FC<ImenuProps> = (props) => {
     'beryl-menu',
     className,
     {
-      'menu-vertical': mode === 'vertical'
+      'menu-vertical': mode === 'vertical',
+      'menu-horizontal': mode !== 'vertical'
     }
   )
   const handleClick = (index: number) => {
