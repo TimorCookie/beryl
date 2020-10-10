@@ -3,19 +3,28 @@ import './styles/index.scss';
 import Button, { ButtonType, ButtonSize } from './components/Button/button'
 import Menu from './components/Menu/menu'
 import MenuItem from './components/Menu/menuItem'
+import SubMenu from './components/Menu/subMenu'
 function App() {
   return (
     <div className="App">
-      <Menu defaultIndex={0} onSelect={(index) => { alert(index) }} mode="vertical">
-        <MenuItem index={0}>
+      <Menu defaultIndex={0} onSelect={(index) => { alert(index) }}>
+        <MenuItem>
           cool link
-          </MenuItem>
-        <MenuItem index={1} disabled>
+        </MenuItem>
+        <MenuItem disabled>
           cool link 2
+        </MenuItem>
+        <SubMenu title="dropdown">
+          <MenuItem>
+            dropdown 1
           </MenuItem>
-        <MenuItem index={2}>
+          <MenuItem>
+            dropdown 2
+          </MenuItem>
+        </SubMenu>
+        <MenuItem>
           cool link 3
-          </MenuItem>
+        </MenuItem>
       </Menu>
       <header className="App-header">
         <Button> Hello </Button>
