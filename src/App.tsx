@@ -12,7 +12,7 @@ library.add(fas)
 function App() {
   return (
     <div className="App">
-    <Icon icon="bug" theme="danger" size="10x" />
+    <Icon icon="bug" theme="primary" size="10x" />
       <Menu defaultIndex='0' onSelect={(index) => { alert(index) }} mode='vertical' defaultOpenSubMenus={['2']}>
         <MenuItem>
           cool link
