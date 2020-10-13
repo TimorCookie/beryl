@@ -6,18 +6,18 @@ const defaultProps = {
   onClick: jest.fn()
 }
 const testProps: ButtonProps = {
-  btnType: ButtonType.Primary,
-  size: ButtonSize.Large,
+  btnType: "primary",
+  size: "lg",
   classname: 'testing-class'
 }
 const linkProps:ButtonProps ={
-  btnType: ButtonType.Link,
-  size: ButtonSize.Small,
+  btnType: "link",
+  size: "sm",
   href: 'https://www.baidu.com'
 }
 const disabledProps:ButtonProps ={
-  btnType: ButtonType.Danger,
-  size: ButtonSize.Small,
+  btnType: "danger",
+  size: "sm",
   disabled: true,
   onClick: jest.fn()
 }
