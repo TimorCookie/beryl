@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles/index.scss';
 import Button from './components/Button/button'
 import Menu from './components/Menu/menu'
@@ -7,9 +7,10 @@ import SubMenu from './components/Menu/subMenu'
 import Icon from './components/Icon/icon'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-
+import Transition from './components/Transition/transition'
 library.add(fas)
 function App() {
+  const [ show, setShow ] = useState(false)
   return (
     <div className="App">
     <Icon icon="bug" theme="primary" size="10x" />
@@ -32,14 +33,38 @@ function App() {
           cool link 3
         </MenuItem>
       </Menu>
-      <header className="App-header">
-        <Button> Hello </Button>
-        <Button disabled> Disabled Button </Button>
-        <Button btnType="primary" size="lg"> Large Primary </Button>
-        <Button btnType="danger" size="sm"> Small Danger </Button>
-        <Button btnType="link" href="http://www.baidu.com"> Baidu Link </Button>
-        <Button btnType="link" href="http://www.baidu.com" disabled> Disabled Link </Button>
-      </header>
+      <Button size="lg" onClick={() => { setShow(!show)}} > Toggle </Button>
+      <Transition
+          in={show}
+          timeout={300}
+          animation="zoom-in-left"
+        >
+          <div>
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          <p>
+            Edit <code>src/App.tsx</code> and save to reload.
+          </p>
+          </div>
+        </Transition>
+        <Transition
+          in={show}
+          timeout={300}
+          animation="zoom-in-top"
+          wrapper
+        >
+          <Button btnType="primary" size="lg">A Large Button </Button>
+        </Transition>
     </div>
   );
 }

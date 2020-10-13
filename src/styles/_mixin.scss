@@ -35,12 +35,12 @@
 }
 
 @mixin zoom-animation(
-  $direction:'top',
+  $direction: 'top',
   $scaleStart: scaleY(0),
   $scaleEnd: scaleY(1),
-  $origin: center top
+  $origin: center top,
 ) {
-  .zoom-in-#{direction}-enter {
+  .zoom-in-#{$direction}-enter {
     opacity: 0;
     transform: $scaleStart;
   }
