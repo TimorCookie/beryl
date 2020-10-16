@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
 import classnames from 'classnames';
 // export enum ButtonType {
 //   Primary = 'primary',
@@ -20,12 +20,12 @@ interface BaseButtonProps {
   disabled?: boolean;
   children?: React.ReactNode;
 }
-type NativeButtonProps = BaseButtonProps & React.ButtonHTMLAttributes<HTMLElement>
-type AnchorButtonProps = BaseButtonProps & React.AnchorHTMLAttributes<HTMLElement>
+type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>
+type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>
 
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
 
-const Button: React.FC<ButtonProps> = (props) => {
+export const Button: FC<ButtonProps> = (props) => {
   const {
     classname,
     btnType,
@@ -61,4 +61,4 @@ Button.defaultProps = {
 }
 
 
-export default Button
+export default Button;

@@ -5,7 +5,7 @@ import Button from './button'
 
 export default {
   title: 'example/Button',
-  component: Button
+  component: Button,
 } as Meta
 
 const template: Story<any> = (args) => <Button {...args} onClick={action('clicked')}>{args.btnTxt}</Button>;
