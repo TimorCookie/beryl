@@ -1,7 +1,7 @@
 import React, { FC, useState, ChangeEvent } from 'react'
 import Input, { InputProps } from '../Input/input'
-
-export interface AutoCompleteProps extends Omit<InputProps, 'onSelect'> {
+type ExcludeProps = 'onChange' | 'onSelect'
+export interface AutoCompleteProps extends Omit<InputProps,ExcludeProps> {
   fetchSuggestions: (str: string) => string[];
   onSelect?: (item: string) => void;
 }
@@ -18,6 +18,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const [ suggestions, setSugestions ] = useState<string[]>([])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    debugger
     const value = e.target.value.trim()
     setInputValue(value)
     if (value) {
