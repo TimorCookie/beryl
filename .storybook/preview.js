@@ -3,7 +3,9 @@ import { addDecorator } from '@storybook/react';
 import { withInfo } from '@storybook/addon-info';
 import "./fix_info_style.scss"
 import React from 'react'
-
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+library.add(fas)
 addDecorator(withInfo); 
 const wrapperStyle = {
   padding: '20px 40px',
