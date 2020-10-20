@@ -8,35 +8,35 @@ export default {
   component: Button,
 } as Meta
 
-const template: Story<any> = (args) => <Button {...args} onClick={action('clicked')}>{args.btnTxt}</Button>;
+const template: Story<any> = (args) => <Button {...args} onClick={action('clicked')}>{args.btntxt}</Button>;
 export const DefaultButton = template.bind({})
 DefaultButton.args = {
-  btnTxt: 'default button'
+  btntxt: 'default button'
 }
 export const PrimaryButton = template.bind({})
 PrimaryButton.args = {
   btnType: 'primary',
-  btnTxt: 'primary button'
+  btntxt: 'primary button'
 }
 
 export const DangerButton = template.bind({})
 
 DangerButton.args = {
   btnType: 'danger',
-  btnTxt: 'danger button'
+  btntxt: 'danger button'
 }
 export const LinkButton = template.bind({})
 LinkButton.args = {
   btnType: 'link',
-  btnTxt: 'link button'
+  btntxt: 'link button'
 }
 export const LargeButton = template.bind({})
 LargeButton.args = {
   size: 'lg',
-  btnTxt: 'large button'
+  btntxt: 'large button'
 }
 export const SmallButton = template.bind({})
 SmallButton.args = {
   size: 'sm',
-  btnTxt: 'small button'
+  btntxt: 'small button'
 }
