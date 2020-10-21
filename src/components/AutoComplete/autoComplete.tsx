@@ -1,9 +1,15 @@
-import React, { FC, useState, ChangeEvent } from 'react'
+import React, { FC, useState, ChangeEvent, ReactElement } from 'react'
 import Input, { InputProps } from '../Input/input'
+
+interface DataSourceObject{
+  value: string;
+}
+export type DataSourceType<T = {}> = T & DataSourceObject
 type ExcludeProps = 'onChange' | 'onSelect'
 export interface AutoCompleteProps extends Omit<InputProps,ExcludeProps> {
-  fetchSuggestions: (str: string) => string[];
-  onSelect?: (item: string) => void;
+  fetchSuggestions: (str: string) => DataSourceType[];
+  onSelect?: (item: DataSourceType) => void;
+  renderOption?: (item: DataSourceType) => ReactElement
 }
 
 export const AutoComplete: FC<AutoCompleteProps> = (props) => {
@@ -11,11 +17,12 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     fetchSuggestions,
     onSelect,
     value,
+    renderOption,
     ...restProps
   } = props
 
   const [ inputValue, setInputValue ] = useState(value)
-  const [ suggestions, setSugestions ] = useState<string[]>([])
+  const [ suggestions, setSuggestions ] = useState<DataSourceType[]>([])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     debugger
@@ -23,17 +30,20 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     setInputValue(value)
     if (value) {
       const results = fetchSuggestions(value)
-      setSugestions(results)
+      setSuggestions(results)
     } else {
-      setSugestions([])
+      setSuggestions([])
     }
   }
-  const handleSelect = (item: string) => {
-    setInputValue(item)
-    setSugestions([])
+  const handleSelect = (item: DataSourceType) => {
+    setInputValue(item.value)
+    setSuggestions([])
     if (onSelect) {
       onSelect(item)
     }
+  }
+  const renderTemplate = (item: DataSourceType) => {
+    return renderOption? renderOption(item):item.value
   }
   const generateDropdown = () => {
     return (
@@ -41,7 +51,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         {suggestions.map((item, index) => {
           return (
             <li key={index} onClick={() => handleSelect(item)}>
-              {item}
+              {renderTemplate(item)}
             </li>
           )
         })}
@@ -54,6 +64,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         value={inputValue}
         onChange={handleChange}
         {...restProps}
+        placeholder="请输入武器名称。。。"
       />
       { (suggestions.length > 0) && generateDropdown()}
     </div>

@@ -9,23 +9,12 @@ import Icon from './components/Icon/icon'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import Transition from './components/Transition/transition'
-
-import AutoComplete from './components/AutoComplete/autoComplete'
 library.add(fas)
 
 function App() {
   const [show, setShow] = useState(false)
-  const timos = ['react', 'angular', 'vue', 'js', 'ts',
-    'ak', 'm4', '98k', 'awm', 'beryl']
-  const handleFetch = (query: string) => {
-    return timos.filter(name => name.includes(query))
-  }
   return (
     <div className="App">
-      <AutoComplete
-        fetchSuggestions={handleFetch}
-        onSelect={() => console.log(11)}
-      />
       <Icon icon="bug" theme="primary" size="10x" />
       <Input size="lg" icon="bug" />
       <Menu defaultIndex='0' onSelect={(index) => { alert(index) }} defaultOpenSubMenus={['2']}>
