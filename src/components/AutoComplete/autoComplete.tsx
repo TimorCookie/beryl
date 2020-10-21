@@ -1,17 +1,20 @@
-import React, { FC, useState, ChangeEvent, ReactElement, useEffect,KeyboardEvent,useRef } from 'react'
+import React, { FC, useState, ChangeEvent, ReactElement, useEffect, KeyboardEvent, useRef } from 'react'
 import classnames from 'classnames'
 import Input, { InputProps } from '../Input/input'
 import Icon from '../Icon/icon'
 import useDebounce from '../../hook/useDebounce'
-
+import useClickOutside from '../../hook/useClickOutside'
 interface DataSourceObject {
   value: string;
 }
 export type DataSourceType<T = {}> = T & DataSourceObject
 type ExcludeProps = 'onChange' | 'onSelect'
 export interface AutoCompleteProps extends Omit<InputProps, ExcludeProps> {
+  /**获取数据的函数 */
   fetchSuggestions: (str: string) => DataSourceType[] | Promise<DataSourceType[]>;
+  /**选中后的回调函数 */
   onSelect?: (item: DataSourceType) => void;
+  /**自定义的渲染组件 */
   renderOption?: (item: DataSourceType) => ReactElement
 }
 
@@ -29,8 +32,10 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const [loading, setLoading] = useState(false)
   const [highlightIndex, setHighlightIndex] = useState(-1)
   const triggerSearch = useRef(false)
+  const componentRef = useRef<HTMLDivElement>(null)
+  useClickOutside(componentRef, () => setSuggestions([]))
   const debouncedValue = useDebounce(inputValue, 500)
-  
+
   useEffect(() => {
     if (debouncedValue && triggerSearch.current) {
       const results = fetchSuggestions(debouncedValue)
@@ -48,7 +53,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
       setSuggestions([])
     }
     setHighlightIndex(-1)
-  }, [debouncedValue,fetchSuggestions])
+  }, [debouncedValue, fetchSuggestions])
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
     setInputValue(value)
@@ -65,10 +70,10 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const renderTemplate = (item: DataSourceType) => {
     return renderOption ? renderOption(item) : item.value
   }
-  const highlight = (index:number)=> {
-    if(index<0) {index=0}
-    if(index>=suggestions.length) {
-      index = suggestions.length -1
+  const highlight = (index: number) => {
+    if (index < 0) { index = 0 }
+    if (index >= suggestions.length) {
+      index = suggestions.length - 1
     }
     setHighlightIndex(index)
   }
@@ -76,7 +81,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     switch (e.keyCode) {
       case 13:
         // enter 键
-        if(suggestions[highlightIndex]) {
+        if (suggestions[highlightIndex]) {
           handleSelect(suggestions[highlightIndex])
         }
         break;
@@ -86,7 +91,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         break;
       case 40:
         // ⬇️ 键
-        highlight(highlightIndex +1)
+        highlight(highlightIndex + 1)
         break;
       case 27:
         // esc键
@@ -113,7 +118,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     )
   }
   return (
-    <div className="beryl-auto-complete">
+    <div className="beryl-auto-complete" ref={componentRef}>
       <Input
         value={inputValue}
         onChange={handleChange}
