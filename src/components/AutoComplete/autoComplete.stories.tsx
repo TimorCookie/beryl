@@ -1,17 +1,22 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 // import { action } from '@storybook/addon-actions'
-import AutoComplete, {DataSourceType} from './autoComplete'
+import AutoComplete, { DataSourceType } from './autoComplete'
 
 export default {
   title: 'example/AutoComplete',
   component: AutoComplete,
 } as Meta
-interface WeaponProps{
+interface WeaponProps {
   value: string;
   bullet: string
 }
-const weapon= [
+interface GithubUserProps {
+  login: string;
+  url: string;
+  avatar_url: string
+}
+const weapon = [
   {
     value: 'ak47',
     bullet: '7.62mm'
@@ -44,6 +49,17 @@ const renderOption = (item: DataSourceType<WeaponProps>) => {
     </>
   )
 }
+const fetchGithub = (query: string) => {
+  return fetch(`https://api.github.com/search/users?q=${query}`)
+    .then(res => res.json())
+    .then(({ items }) => {
+      let results = (items && items.length > 10) ? (items.slice(0, 10)) : items
+      return results.map((item: GithubUserProps) => ({ value: item.login, ...item }))
+    })
+    .catch(err => {
+      console.warn(err)
+    })
+}
 const template: Story<any> = (args) => {
   return <AutoComplete {...args} style={{ width: '300px' }} />;
 }
@@ -55,4 +71,8 @@ export const RenderWithOption = template.bind({})
 RenderWithOption.args = {
   fetchSuggestions: handleFetch,
   renderOption
+}
+export const awaitSource = template.bind({})
+awaitSource.args = {
+  fetchSuggestions: fetchGithub
 }

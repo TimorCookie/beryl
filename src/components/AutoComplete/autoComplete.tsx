@@ -1,13 +1,13 @@
 import React, { FC, useState, ChangeEvent, ReactElement } from 'react'
 import Input, { InputProps } from '../Input/input'
-
-interface DataSourceObject{
+import Icon from '../Icon/icon'
+interface DataSourceObject {
   value: string;
 }
 export type DataSourceType<T = {}> = T & DataSourceObject
 type ExcludeProps = 'onChange' | 'onSelect'
-export interface AutoCompleteProps extends Omit<InputProps,ExcludeProps> {
-  fetchSuggestions: (str: string) => DataSourceType[];
+export interface AutoCompleteProps extends Omit<InputProps, ExcludeProps> {
+  fetchSuggestions: (str: string) => DataSourceType[] | Promise<DataSourceType[]>;
   onSelect?: (item: DataSourceType) => void;
   renderOption?: (item: DataSourceType) => ReactElement
 }
@@ -21,16 +21,23 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     ...restProps
   } = props
 
-  const [ inputValue, setInputValue ] = useState(value)
-  const [ suggestions, setSuggestions ] = useState<DataSourceType[]>([])
-
+  const [inputValue, setInputValue] = useState(value)
+  const [suggestions, setSuggestions] = useState<DataSourceType[]>([])
+  const [loading, setLoading] = useState(false)
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    debugger
     const value = e.target.value.trim()
     setInputValue(value)
     if (value) {
       const results = fetchSuggestions(value)
-      setSuggestions(results)
+      if (results instanceof Promise) {
+        setLoading(true)
+        results.then(res => {
+          setSuggestions(res)
+          setLoading(false)
+        })
+      } else {
+        setSuggestions(results)
+      }
     } else {
       setSuggestions([])
     }
@@ -43,7 +50,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     }
   }
   const renderTemplate = (item: DataSourceType) => {
-    return renderOption? renderOption(item):item.value
+    return renderOption ? renderOption(item) : item.value
   }
   const generateDropdown = () => {
     return (
@@ -66,6 +73,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         {...restProps}
         placeholder="请输入武器名称。。。"
       />
+      {loading && <Icon icon="spinner" spin />}
       { (suggestions.length > 0) && generateDropdown()}
     </div>
   )
